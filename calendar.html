@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calendar</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      #month {
+        text-align: center;
+        font-size: 30px;
+        margin: 20px auto;
+        font-weight: bold;
+      }
+      table {
+        /* border: 1px solid black; */
+        width: 100%;
+        text-align: center;
+        border-collapse: collapse;
+        table-layout: fixed;
+      }
+      #day {
+        font-weight: bold;
+      }
+      #days {
+        font-size: 20px;
+        width: 100%;
+        height: 75vh;
+        vertical-align: top;
+      }
+      #days td:hover:not(.next) {
+        background-color: lightgray;
+      }
+      .holiday {
+        color: red;
+      }
+      .next_holiday {
+        color: rgba(255, 0, 0, 0.333);
+      }
+      td {
+        border-top: 1px solid lightgray;
+      }
+      .next {
+        color: lightgray;
+      }
+      .lunar {
+        color: rgb(179, 179, 179);
+        font-size: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="month"></div>
+    <table>
+      <thead id="day">
+        <tr>
+          <td class="holiday">Sun</td>
+          <td>Mon</td>
+          <td>Tue</td>
+          <td>Wed</td>
+          <td>Thr</td>
+          <td>Fri</td>
+          <td>Sat</td>
+        </tr>
+      </thead>
+      <tbody id="days">
+        <tr>
+          <td class="holiday">
+            1
+            <br />
+            <div class="lunar">7.29</div>
+          </td>
+          <td>2</td>
+          <td>3</td>
+          <td>4</td>
+          <td>5</td>
+          <td>6</td>
+          <td>7</td>
+        </tr>
+        <tr>
+          <td class="holiday">
+            8
+            <br />
+            <div class="lunar">8.6</div>
+          </td>
+          <td>9</td>
+          <td>10</td>
+          <td>11</td>
+          <td>12</td>
+          <td>13</td>
+          <td>14</td>
+        </tr>
+        <tr>
+          <td class="holiday">
+            15
+            <br />
+            <div class="lunar">8.13</div>
+          </td>
+          <td class="holiday">16</td>
+          <td class="holiday">17</td>
+          <td class="holiday">18</td>
+          <td>19</td>
+          <td>20</td>
+          <td>21</td>
+        </tr>
+        <tr>
+          <td class="holiday">
+            22
+            <br />
+            <div class="lunar">8.20</div>
+          </td>
+          <td>23</td>
+          <td>24</td>
+          <td>25</td>
+          <td>26</td>
+          <td>27</td>
+          <td>28</td>
+        </tr>
+        <tr>
+          <td class="holiday">
+            29
+            <br />
+            <div class="lunar">8.27</div>
+          </td>
+          <td>30</td>
+          <td class="next">1</td>
+          <td class="next">2</td>
+          <td class="next_holiday">3</td>
+          <td class="next">4</td>
+          <td class="next">5</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <script>
+      //달 집어넣기
+      let today = new Date();
+      let month = today.getMonth() + 1;
+      if (month === 1) {
+        month = 'January';
+      } else if (month === 2) {
+        month = 'February';
+      } else if (month === 3) {
+        month = 'March';
+      } else if (month === 4) {
+        month = 'April';
+      } else if (month === 5) {
+        month = 'May';
+      } else if (month === 6) {
+        month = 'June';
+      } else if (month === 7) {
+        month = 'July';
+      } else if (month === 8) {
+        month = 'August';
+      } else if (month === 9) {
+        month = 'September';
+      } else if (month === 10) {
+        month = 'October';
+      } else if (month === 11) {
+        month = 'November';
+      } else if (month === 12) {
+        month = 'December';
+      }
+      document.getElementById('month').innerHTML += month;
+    </script>
+  </body>
+</html>
