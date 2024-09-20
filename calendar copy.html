@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calendar</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      #month {
+        text-align: center;
+        font-size: 30px;
+        margin: 20px auto;
+        font-weight: bold;
+      }
+      table {
+        /* border: 1px solid black; */
+        width: 100%;
+        text-align: center;
+        border-collapse: collapse;
+        table-layout: fixed;
+      }
+      #day {
+        font-weight: bold;
+      }
+      #days {
+        font-size: 20px;
+        width: 100%;
+        height: 75vh;
+        vertical-align: top;
+      }
+      #days td:hover:not(.next) {
+        background-color: lightgray;
+      }
+      .holiday {
+        color: red;
+      }
+      .next_holiday {
+        color: rgba(255, 0, 0, 0.333);
+      }
+      td {
+        border-top: 1px solid lightgray;
+      }
+      .next {
+        color: lightgray;
+      }
+      .lunar {
+        color: rgb(179, 179, 179);
+        font-size: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="month"></div>
+    <table>
+      <thead id="day">
+        <tr>
+          <td class="holiday">Sun</td>
+          <td>Mon</td>
+          <td>Tue</td>
+          <td>Wed</td>
+          <td>Thr</td>
+          <td>Fri</td>
+          <td>Sat</td>
+        </tr>
+      </thead>
+      <!-- <tbody id="days">
+        <tr id="0"></tr>
+        <tr id="1"></tr>
+        <tr id="2"></tr>
+        <tr id="3"></tr>
+        <tr id="4"></tr>
+        <tr id="5"></tr>
+        <tr id="6"></tr>
+      </tbody> -->
+    </table>
+
+    <script>
+      //달 집어넣기
+      let today = new Date();
+      let month = today.getMonth() + 1;
+      if (month === 1) {
+        month = 'January';
+      } else if (month === 2) {
+        month = 'February';
+      } else if (month === 3) {
+        month = 'March';
+      } else if (month === 4) {
+        month = 'April';
+      } else if (month === 5) {
+        month = 'May';
+      } else if (month === 6) {
+        month = 'June';
+      } else if (month === 7) {
+        month = 'July';
+      } else if (month === 8) {
+        month = 'August';
+      } else if (month === 9) {
+        month = 'September';
+      } else if (month === 10) {
+        month = 'October';
+      } else if (month === 11) {
+        month = 'November';
+      } else if (month === 12) {
+        month = 'December';
+      }
+      document.getElementById('month').innerHTML += month;
+
+      //일 집어넣기
+      let today_year = today.getFullYear();
+      let today_month = today.getMonth();
+
+      let thiss = new Date(today_year, today_month + 1, 0);
+      let this_date = thiss.getDate();
+      let this_day = thiss.getDay();
+
+      let last = new Date(today_year, today_month, 0);
+      let last_date = last.getDate();
+      let last_day = last.getDay();
+
+      let start_day = last_day + 1;
+      if (start_day === 7) {
+        start_day = 0;
+      }
+
+      let last_month = [];
+      let this_month = [];
+      let next_month = [];
+
+      let temp_day = last_day;
+      let temp_date = last_date;
+      for (let i = 0; i < start_day; i++) {
+        this_month[temp_day] = temp_date;
+        temp_day--;
+        temp_date--;
+      }
+
+      let temp_start_day = start_day;
+      for (let i = 0; i < this_date; i++) {
+        this_month[temp_start_day] = i + 1;
+        temp_start_day++;
+      }
+
+      if (this_month.length < 35) {
+        console.log(this_month);
+        for (let num = 0; num <= 35 - this_month.length; num++) {
+          this_month[temp_start_day] = num + 1;
+          temp_start_day++;
+        }
+      }
+    </script>
+  </body>
+</html>
