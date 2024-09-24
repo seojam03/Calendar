@@ -50,10 +50,72 @@
         color: rgb(179, 179, 179);
         font-size: 10px;
       }
+
+      .days {
+        font-size: 30px;
+      }
+      [id*='slice'] {
+        display: flex;
+        justify-content: space-between;
+        margin: 10px 0 50px 0;
+        border-top: 1px solid lightgray;
+      }
+      [id*='slice'] div {
+        width: 200px;
+        text-align: center;
+      }
+
+      .need_css {
+        color: lightgray;
+      }
+
+      #last_month {
+        position: absolute;
+        top: 5vh;
+        left: 20vw;
+      }
+      #last_month button {
+        width: 120px;
+        height: 30px;
+        border: none;
+        background-color: white;
+        font-weight: bold;
+        color: rgba(211, 211, 211, 0.6);
+        font-size: 20px;
+        border-radius: 30px;
+      }
+      #last_month button:hover {
+        background-color: lightgray;
+        color: white;
+        cursor: pointer;
+      }
+
+      #next_month {
+        position: absolute;
+        top: 5vh;
+        right: 20vw;
+      }
+      #next_month button {
+        width: 120px;
+        height: 30px;
+        border: none;
+        background-color: white;
+        font-weight: bold;
+        color: rgba(211, 211, 211, 0.6);
+        font-size: 20px;
+        border-radius: 30px;
+      }
+      #next_month button:hover {
+        color: white;
+        background-color: lightgray;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
     <div id="month"></div>
+    <div id="last_month"></div>
+    <div id="next_month"></div>
     <table>
       <thead id="day">
         <tr>
@@ -66,47 +128,80 @@
           <td>Sat</td>
         </tr>
       </thead>
-      <!-- <tbody id="days">
-        <tr id="0"></tr>
-        <tr id="1"></tr>
-        <tr id="2"></tr>
-        <tr id="3"></tr>
-        <tr id="4"></tr>
-        <tr id="5"></tr>
-        <tr id="6"></tr>
-      </tbody> -->
     </table>
+
+    <div class="days"></div>
 
     <script>
       //달 집어넣기
       let today = new Date();
+      let lastt_month;
+      let nextt_month;
       let month = today.getMonth() + 1;
+      let month_temp = month;
       if (month === 1) {
+        lastt_month = 'December';
         month = 'January';
+        next_month = 'February';
       } else if (month === 2) {
+        lastt_month = 'January';
         month = 'February';
+        nextt_month = 'March';
       } else if (month === 3) {
+        lastt_month = 'February';
         month = 'March';
+        nextt_month = 'April';
       } else if (month === 4) {
+        lastt_month = 'March';
         month = 'April';
+        nextt_month = 'May';
       } else if (month === 5) {
+        lastt_month = 'April';
         month = 'May';
+        nextt_month = 'June';
       } else if (month === 6) {
+        lastt_month = 'May';
         month = 'June';
+        nextt_month = 'July';
       } else if (month === 7) {
+        lastt_month = 'June';
         month = 'July';
+        nextt_month = 'August';
       } else if (month === 8) {
+        lastt_month = 'July';
         month = 'August';
+        nextt_month = 'September';
       } else if (month === 9) {
+        lastt_month = 'August';
         month = 'September';
+        nextt_month = 'October';
       } else if (month === 10) {
+        lastt_month = 'September';
         month = 'October';
+        nextt_month = 'November';
       } else if (month === 11) {
+        lastt_month = 'October';
         month = 'November';
+        nextt_month = 'December';
       } else if (month === 12) {
+        lastt_month = 'November';
         month = 'December';
+        nextt_month = 'January';
       }
-      document.getElementById('month').innerHTML += month;
+      document.getElementById('month').innerHTML = month;
+
+      //달 바꾸기
+      let la_month = document.getElementById('last_month');
+      let la_month_btn = document.createElement('button');
+      let la_month_text = document.createTextNode(lastt_month);
+      la_month_btn.appendChild(la_month_text);
+      la_month.append(la_month_btn);
+
+      let ne_month = document.getElementById('next_month');
+      let ne_month_btn = document.createElement('button');
+      let ne_month_text = document.createTextNode(nextt_month);
+      ne_month_btn.appendChild(ne_month_text);
+      ne_month.append(ne_month_btn);
 
       //일 집어넣기
       let today_year = today.getFullYear();
@@ -120,36 +215,407 @@
       let last_date = last.getDate();
       let last_day = last.getDay();
 
+      let next = new Date(today_year, today_month + 2, 0);
+      let next_date = next.getDate();
+      let next_day = next.getDay();
+
       let start_day = last_day + 1;
       if (start_day === 7) {
         start_day = 0;
+      }
+
+      function reset_last() {
+        today_month--;
+        if (today_month === -1) {
+          today_year--;
+          today_month = 11;
+        }
+
+        thiss = new Date(today_year, today_month + 1, 0);
+        this_date = thiss.getDate();
+        this_day = thiss.getDay();
+
+        last = new Date(today_year, today_month, 0);
+        last_date = last.getDate();
+        last_day = last.getDay();
+
+        next = new Date(today_year, today_month + 2, 0);
+        next_date = next.getDate();
+        next_day = next.getDay();
+
+        start_day = last_day + 1;
+        if (start_day === 7) {
+          start_day = 0;
+        }
+      }
+      function reset_next() {
+        today_month++;
+        if (today_month === 12) {
+          today_year++;
+          today_month = 0;
+        }
+
+        thiss = new Date(today_year, today_month + 1, 0);
+        this_date = thiss.getDate();
+        this_day = thiss.getDay();
+
+        last = new Date(today_year, today_month, 0);
+        last_date = last.getDate();
+        last_day = last.getDay();
+
+        next = new Date(today_year, today_month + 2, 0);
+        next_date = next.getDate();
+        next_day = next.getDay();
+
+        start_day = last_day + 1;
+        if (start_day === 7) {
+          start_day = 0;
+        }
       }
 
       let last_month = [];
       let this_month = [];
       let next_month = [];
 
-      let temp_day = last_day;
-      let temp_date = last_date;
-      for (let i = 0; i < start_day; i++) {
-        this_month[temp_day] = temp_date;
-        temp_day--;
-        temp_date--;
-      }
-
-      let temp_start_day = start_day;
-      for (let i = 0; i < this_date; i++) {
-        this_month[temp_start_day] = i + 1;
-        temp_start_day++;
-      }
-
-      if (this_month.length < 35) {
-        console.log(this_month);
-        for (let num = 0; num <= 35 - this_month.length; num++) {
-          this_month[temp_start_day] = num + 1;
+      //this_month 구하기
+      // let temp_day = last_day;
+      // let temp_date = last_date;
+      // for (let i = 0; i < start_day; i++) {
+      //   this_month[temp_day] = temp_date;
+      //   temp_day--;
+      //   temp_date--;
+      // }
+      // let temp_start_day = start_day;
+      // for (let i = 0; i < this_date; i++) {
+      //   this_month[temp_start_day] = i + 1;
+      //   temp_start_day++;
+      // }
+      // if (this_month.length < 35) {
+      //   let check = this_month.length;
+      //   for (let num = 0; num < 35 - check; num++) {
+      //     this_month[temp_start_day] = num + 1;
+      //     temp_start_day++;
+      //   }
+      // }
+      function solve_this_month() {
+        this_month.splice(0, 35);
+        let temp_day = last_day;
+        let temp_date = last_date;
+        for (let i = 0; i < start_day; i++) {
+          this_month[temp_day] = temp_date;
+          temp_day--;
+          temp_date--;
+        }
+        let temp_start_day = start_day;
+        for (let i = 0; i < this_date; i++) {
+          this_month[temp_start_day] = i + 1;
           temp_start_day++;
         }
+        if (this_month.length < 35) {
+          let check = this_month.length;
+          for (let num = 0; num < 35 - check; num++) {
+            this_month[temp_start_day] = num + 1;
+            temp_start_day++;
+          }
+        }
       }
+      solve_this_month();
+
+      // last_month 구하기
+      function solve_last_month() {
+        last_month.splice(0, 35);
+        let la_last = new Date(today_year, today_month - 1, 0);
+        let la_last_date = la_last.getDate();
+        let la_last_day = la_last.getDay();
+        temp_day = la_last_day;
+        temp_date = la_last_date;
+        start_day = la_last_day + 1;
+
+        for (let i = 0; i < start_day; i++) {
+          last_month[temp_day] = temp_date;
+          temp_day--;
+          temp_date--;
+        }
+        temp_start_day = start_day;
+        for (let i = 0; i < last_date; i++) {
+          last_month[temp_start_day] = i + 1;
+          temp_start_day++;
+        }
+        if (last_month.length < 35) {
+          let check = last_month.length;
+          for (let num = 0; num < 35 - check; num++) {
+            last_month[temp_start_day] = num + 1;
+            temp_start_day++;
+          }
+        }
+      }
+      solve_last_month();
+
+      //next_month 구하기
+      function solve_next_month() {
+        next_month.splice(0, 35);
+        let temp2_start_day = this_day;
+        if (temp2_start_day === 6) {
+          temp2_start_day = -1;
+        }
+        let temp_this_day = temp2_start_day;
+        let double_temp = temp2_start_day + 1;
+
+        for (let i = 0; i <= temp2_start_day; i++) {
+          next_month[temp_this_day] = this_date;
+          temp_this_day--;
+          this_date--;
+        }
+        for (let i = 0; i < next_date; i++) {
+          next_month[double_temp] = i + 1;
+          double_temp++;
+        }
+        if (next_month.length < 35) {
+          let check = next_month.length;
+          for (let num = 0; num < 35 - check; num++) {
+            next_month[double_temp] = num + 1;
+            double_temp++;
+          }
+        }
+      }
+      solve_next_month();
+
+      //
+      let slice1 = this_month.slice(0, 7);
+      let slice2 = this_month.slice(7, 14);
+      let slice3 = this_month.slice(14, 21);
+      let slice4 = this_month.slice(21, 28);
+      let slice5 = this_month.slice(28, 35);
+
+      let make_date = document.querySelector('.days');
+
+      let make_slice1 = document.createElement('div');
+      make_slice1.id = 'slice1';
+      let make_slice2 = document.createElement('div');
+      make_slice2.id = 'slice2';
+      let make_slice3 = document.createElement('div');
+      make_slice3.id = 'slice3';
+      let make_slice4 = document.createElement('div');
+      make_slice4.id = 'slice4';
+      let make_slice5 = document.createElement('div');
+      make_slice5.id = 'slice5';
+
+      for (let i = 0; i < 7; i++) {
+        let pract = document.createElement('div');
+        if (i === 0) {
+          pract.className = 'holiday';
+        }
+        pract.append(slice1[i]);
+        make_slice1.appendChild(pract);
+      }
+      for (let i = 0; i < 7; i++) {
+        let pract = document.createElement('div');
+        if (i === 0) {
+          pract.className = 'holiday';
+        }
+        pract.append(slice2[i]);
+        make_slice2.appendChild(pract);
+      }
+      for (let i = 0; i < 7; i++) {
+        let pract = document.createElement('div');
+        if (i === 0) {
+          pract.className = 'holiday';
+        }
+        pract.append(slice3[i]);
+        make_slice3.appendChild(pract);
+      }
+      for (let i = 0; i < 7; i++) {
+        let pract = document.createElement('div');
+        if (i === 0) {
+          pract.className = 'holiday';
+        }
+        pract.append(slice4[i]);
+        make_slice4.appendChild(pract);
+      }
+      for (let i = 0; i < 7; i++) {
+        let pract = document.createElement('div');
+        if (i === 0) {
+          pract.className = 'holiday';
+        }
+        if (slice5[i] < 10) {
+          pract.className = 'need_css';
+        }
+        pract.append(slice5[i]);
+        make_slice5.appendChild(pract);
+      }
+      make_date.append(make_slice1);
+      make_date.append(make_slice2);
+      make_date.append(make_slice3);
+      make_date.append(make_slice4);
+      make_date.append(make_slice5);
+
+      //달 클릭 시
+      la_month.addEventListener('click', () => {
+        //달 바꾸기
+        month = month_temp;
+        month--;
+        if (month === 0) {
+          month = 12;
+        }
+        month_temp = month;
+        if (month === 1) {
+          lastt_month = 'December';
+          month = 'January';
+          nextt_month = 'February';
+        } else if (month === 2) {
+          lastt_month = 'January';
+          month = 'February';
+          nextt_month = 'March';
+        } else if (month === 3) {
+          lastt_month = 'February';
+          month = 'March';
+          nextt_month = 'April';
+        } else if (month === 4) {
+          lastt_month = 'March';
+          month = 'April';
+          nextt_month = 'May';
+        } else if (month === 5) {
+          lastt_month = 'April';
+          month = 'May';
+          nextt_month = 'June';
+        } else if (month === 6) {
+          lastt_month = 'May';
+          month = 'June';
+          nextt_month = 'July';
+        } else if (month === 7) {
+          lastt_month = 'June';
+          month = 'July';
+          nextt_month = 'August';
+        } else if (month === 8) {
+          lastt_month = 'July';
+          month = 'August';
+          nextt_month = 'September';
+        } else if (month === 9) {
+          lastt_month = 'August';
+          month = 'September';
+          nextt_month = 'October';
+        } else if (month === 10) {
+          lastt_month = 'September';
+          month = 'October';
+          nextt_month = 'November';
+        } else if (month === 11) {
+          lastt_month = 'October';
+          month = 'November';
+          nextt_month = 'December';
+        } else if (month === 12) {
+          lastt_month = 'November';
+          month = 'December';
+          nextt_month = 'January';
+        }
+        document.getElementById('month').innerHTML = month;
+
+        la_month_btn.remove();
+        la_month_btn = document.createElement('button');
+        la_month_text = document.createTextNode(lastt_month);
+        la_month_btn.appendChild(la_month_text);
+        la_month.append(la_month_btn);
+
+        ne_month_btn.remove();
+        ne_month_btn = document.createElement('button');
+        ne_month_text = document.createTextNode(nextt_month);
+        ne_month_btn.appendChild(ne_month_text);
+        ne_month.append(ne_month_btn);
+
+        reset_last();
+
+        solve_this_month();
+        solve_last_month();
+        solve_next_month();
+
+        //현재 있던 일 삭제
+        remove_date = document.querySelectorAll("[id*='slice']>div");
+        for (let i = 0; i < 35; i++) {
+          remove_date[i].remove('div');
+        }
+
+        //일 바꾸기
+      });
+      let remove_date = [];
+
+      ne_month.addEventListener('click', () => {
+        //달 바꾸기
+        month = month_temp;
+        month++;
+        if (month === 13) {
+          month = 1;
+        }
+        month_temp = month;
+        if (month === 1) {
+          lastt_month = 'December';
+          month = 'January';
+          nextt_month = 'February';
+        } else if (month === 2) {
+          lastt_month = 'January';
+          month = 'February';
+          nextt_month = 'March';
+        } else if (month === 3) {
+          lastt_month = 'February';
+          month = 'March';
+          nextt_month = 'April';
+        } else if (month === 4) {
+          lastt_month = 'March';
+          month = 'April';
+          nextt_month = 'May';
+        } else if (month === 5) {
+          lastt_month = 'April';
+          month = 'May';
+          nextt_month = 'June';
+        } else if (month === 6) {
+          lastt_month = 'May';
+          month = 'June';
+          nextt_month = 'July';
+        } else if (month === 7) {
+          lastt_month = 'June';
+          month = 'July';
+          nextt_month = 'August';
+        } else if (month === 8) {
+          lastt_month = 'July';
+          month = 'August';
+          nextt_month = 'September';
+        } else if (month === 9) {
+          lastt_month = 'August';
+          month = 'September';
+          nextt_month = 'October';
+        } else if (month === 10) {
+          lastt_month = 'September';
+          month = 'October';
+          nextt_month = 'November';
+        } else if (month === 11) {
+          lastt_month = 'October';
+          month = 'November';
+          nextt_month = 'December';
+        } else if (month === 12) {
+          lastt_month = 'November';
+          month = 'December';
+          nextt_month = 'January';
+        }
+        document.getElementById('month').innerHTML = month;
+
+        la_month_btn.remove();
+        la_month_btn = document.createElement('button');
+        la_month_text = document.createTextNode(lastt_month);
+        la_month_btn.appendChild(la_month_text);
+        la_month.append(la_month_btn);
+
+        ne_month_btn.remove();
+        ne_month_btn = document.createElement('button');
+        ne_month_text = document.createTextNode(nextt_month);
+        ne_month_btn.appendChild(ne_month_text);
+        ne_month.append(ne_month_btn);
+
+        //일 바꾸기
+        today_month++;
+        thiss = next;
+        last = new Date(today_year, today_month, 0);
+        next = new Date(today_year, today_month + 2, 0);
+      });
+
+      //
     </script>
   </body>
 </html>
